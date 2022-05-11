@@ -3,7 +3,7 @@
     <q-item>
       <q-item-section avatar>
         <q-avatar>
-          <img src="" />
+          <head-avatar :skin="user.assets ? user.assets.skin : null"></head-avatar>
         </q-avatar>
       </q-item-section>
 
@@ -35,6 +35,13 @@
             <q-item-section>
               <q-item-label>Группы</q-item-label>
               <q-item-label caption>{{ user.group && user.group.length > 0 ? user.group.join(", ") : "Нет групп" }}</q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-separator v-if="balances.length > 0"></q-separator>
+          <q-item v-for="balance in balances" v-bind:key="balance.id">
+            <q-item-section>
+              <q-item-label>{{ balance.currency }}</q-item-label>
+              <q-item-label caption>Баланс: {{ balance.balance }} | Номер: {{ balance.id }}</q-item-label>
             </q-item-section>
           </q-item>
           <q-separator></q-separator>
@@ -69,9 +76,10 @@ import UploadSkinDialog from "./UploadSkinDialog.vue";
 import UploadCapeDialog from "./UploadCapeDialog.vue";
 import ChangePasswordDialog from "./ChangePasswordDialog.vue";
 import ChangePasswordDialog1 from "./ChangePasswordDialog.vue";
+import HeadAvatar from "./HeadAvatar.vue";
 
 export default defineComponent({
-  components: { "skin-view-3d": SkinView3d, UploadSkinDialog, UploadCapeDialog, ChangePasswordDialog, ChangePasswordDialog1 },
+  components: { "skin-view-3d": SkinView3d, UploadSkinDialog, UploadCapeDialog, ChangePasswordDialog, ChangePasswordDialog1, HeadAvatar },
   props: {
     user: {
       required: true,
@@ -82,10 +90,20 @@ export default defineComponent({
   },
   setup(props) {
     const $store = useStore();
+    var balances = ref([]);
     const modalSkin = ref(false);
     const modalCape = ref(false);
     const modalChangePassword = ref(false);
+    $store.dispatch("api/request", {
+          url: "cabinet/money/balance/page/0",
+          method: "GET",
+        }).then((x) => {
+          if(x.ok) {
+            balances.value = x.data.data;
+          }
+        })
     return {
+      balances,
       modalSkin,
       modalCape,
       modalChangePassword,
