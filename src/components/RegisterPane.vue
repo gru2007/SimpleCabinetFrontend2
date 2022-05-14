@@ -33,7 +33,7 @@
       <div
   class="h-captcha"
   :data-sitekey="sitekey"
-  
+
   data-error-callback="onError"
 ></div>
     </q-card-section>
@@ -76,7 +76,7 @@ export default defineComponent({
           $router.push("/")
         }
       },
-      sitekey: computed(() => $store.state.api.hcaptcha.sitekey),
+      sitekey: computed(() => $store.state.api.recaptcha.sitekey),
       username,
       password,
       email
