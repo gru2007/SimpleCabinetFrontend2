@@ -44,6 +44,9 @@ export default defineComponent({
     return {
       async upload() {
         const fd = new FormData();
+        fd.append("options", new Blob([JSON.stringify({})], {
+          type: "application/json"
+        }))
         fd.append("file", file.value)
         var response = await fetch($store.state.api.url + "cabinet/upload/cape", {
           "method": "POST",
