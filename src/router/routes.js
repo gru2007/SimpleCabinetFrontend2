@@ -15,6 +15,22 @@ const routes = [
     ]
   },
   {
+    path: '/user/name/:username',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/UserByUsername.vue') }
+    ],
+    props: true
+  },
+  {
+    path: '/user/uuid/:uuid',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/UserByUUID.vue') }
+    ],
+    props: true
+  },
+  {
     path: '/register',
     component: () => import('layouts/MainLayout.vue'),
     children: [
