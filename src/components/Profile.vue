@@ -32,6 +32,12 @@
           <q-btn v-if="owner == true" flat @click="modalCape.show = true"
             >Изменить плащ</q-btn
           >
+          <q-btn v-if="owner == false && isAdmin == true" flat color="red" @click="adminDeleteAsset(user, 'SKIN')"
+            >Удалить скин</q-btn
+          >
+          <q-btn v-if="owner == false && isAdmin == true" flat color="red" @click="adminDeleteAsset(user, 'CAPE')"
+            >Удалить плащ</q-btn
+          >
         </q-card-actions>
       </q-card-section>
       <q-separator vertical></q-separator>
@@ -67,12 +73,23 @@
           </q-item>
           <q-separator></q-separator>
           <q-list>
-            <q-item>
+            <q-item v-if="owner == true">
               <q-btn-group>
-                <q-btn
-                  v-if="owner == true"
-                  @click="modalChangePassword.show = true"
+                <q-btn @click="modalChangePassword.show = true"
                   >Сменить пароль</q-btn
+                >
+                <q-btn v-if="isAdmin == true" @click="modalChangePassword.show = true"
+                  >Включить 2FA</q-btn
+                >
+              </q-btn-group>
+            </q-item>
+            <q-item v-if="isAdmin == true">
+              <q-btn-group>
+                <q-btn color="red"
+                  >Забанить</q-btn
+                >
+                <q-btn color="red"
+                  >Удалить</q-btn
                 >
               </q-btn-group>
             </q-item>
@@ -83,12 +100,14 @@
     <upload-skin-dialog
       ref="modalSkin"
       :skin="user.assets ? user.assets.skin : null"
+      @update="(data) => updateAsset('skin', data)"
     >
     </upload-skin-dialog>
 
     <upload-cape-dialog
       ref="modalCape"
       :cape="user.assets ? user.assets.cape : null"
+      @update="(data) => updateAsset('cape', data)"
     >
     </upload-cape-dialog>
 
@@ -104,6 +123,7 @@ import UploadCapeDialog from "./UploadCapeDialog.vue";
 import ChangePasswordDialog from "./ChangePasswordDialog.vue";
 import ChangePasswordDialog1 from "./ChangePasswordDialog.vue";
 import HeadAvatar from "./HeadAvatar.vue";
+import { useQuasar } from "quasar";
 
 export default defineComponent({
   components: {
@@ -123,13 +143,14 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const $q = useQuasar();
     const $store = useStore();
     var balances = ref([]);
     const modalSkin = ref(false);
     const modalCape = ref(false);
     const modalChangePassword = ref(false);
     async function updateInfo(user) {
-      if(!user) {
+      if (!user) {
         return;
       }
       if (props.owner == true) {
@@ -146,7 +167,7 @@ export default defineComponent({
       } else if ($store.getters["api/isAdmin"]) {
         $store
           .dispatch("api/request", {
-            url: "admin/money/userbalance/all/userid/"+user.id+"/page/0",
+            url: "admin/money/userbalance/all/userid/" + user.id + "/page/0",
             method: "GET",
           })
           .then((x) => {
@@ -156,6 +177,32 @@ export default defineComponent({
           });
       }
     }
+    async function adminDeleteAsset(user, assetName) {
+      var result = await $store
+          .dispatch("api/request", {
+            url: "users/id/"+user.id+"/asset/"+assetName,
+            method: "DELETE",
+          });
+      if(result.ok) {
+        $q.notify({
+            "type": "positive",
+            "message": "Ассет "+assetName+" успешно удалён"
+          })
+        delete user.assets[assetName.toLowerCase()];
+      } else {
+        $q.notify({
+            "type": "negative",
+            "message": "Произошла ошибка при удалении ассета "+assetName+" SC"+result.data.code
+          })
+      }
+    }
+    var updateAsset = (assetName, data) => {
+        if(props.owner == true) {
+            $store.commit("api/updateCurrentUserAsset", {"name" : assetName, "value": data})
+        } else {
+            user.assets[assetName] = data
+        }
+    };
     updateInfo(props.user);
     const authWatch = watch(
       () => $store.state.api.user,
@@ -170,6 +217,9 @@ export default defineComponent({
       modalCape,
       modalChangePassword,
       authWatch,
+      isAdmin: computed(() => $store.getters["api/isAdmin"]),
+      adminDeleteAsset,
+      updateAsset
     };
   },
 });

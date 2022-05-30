@@ -47,7 +47,8 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  emits: ["update"],
+  setup(props, context) {
     const $store = useStore();
     const $q = useQuasar();
     const toggleSlim = ref(false);
@@ -67,10 +68,12 @@ export default defineComponent({
           "body": fd
         })
         if(response.ok) {
+          var data = await response.json();
           $q.notify({
             "type": "positive",
             "message": "Скин успешно загружен"
           })
+          context.emit('update', data)
           show = false
         } else {
           var error = await response.json()

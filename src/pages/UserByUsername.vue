@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-    <profile v-if="user" :user="user" owner=false>
+    <profile v-if="user" :user="user" :owner="false">
 
     </profile>
     <error404 v-if="err404" message="Пользователь не найден"></error404>

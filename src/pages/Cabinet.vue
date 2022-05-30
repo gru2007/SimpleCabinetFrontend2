@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-    <profile :user="user" owner=true>
+    <profile :user="user" :owner="true">
 
     </profile>
   </q-page>
