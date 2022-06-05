@@ -23,6 +23,11 @@
               ? user.assets.skin.url
               : null
           "
+          :capeUrl="
+            user && user.assets && user.assets.cape
+              ? user.assets.cape.url
+              : null
+          "
         >
         </skin-view-3d>
         <q-card-actions>
