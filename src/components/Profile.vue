@@ -37,10 +37,18 @@
           <q-btn v-if="owner == true" flat @click="modalCape.show = true"
             >Изменить плащ</q-btn
           >
-          <q-btn v-if="owner == false && isAdmin == true" flat color="red" @click="adminDeleteAsset(user, 'SKIN')"
+          <q-btn
+            v-if="owner == false && isAdmin == true"
+            flat
+            color="red"
+            @click="adminDeleteAsset(user, 'SKIN')"
             >Удалить скин</q-btn
           >
-          <q-btn v-if="owner == false && isAdmin == true" flat color="red" @click="adminDeleteAsset(user, 'CAPE')"
+          <q-btn
+            v-if="owner == false && isAdmin == true"
+            flat
+            color="red"
+            @click="adminDeleteAsset(user, 'CAPE')"
             >Удалить плащ</q-btn
           >
         </q-card-actions>
@@ -50,7 +58,26 @@
         <q-list>
           <q-item>
             <q-item-section>
-              <q-item-label>Cтатус</q-item-label>
+              <q-item-label
+                >Статус
+                <q-btn
+                  v-if="owner == true"
+                  flat
+                  round
+                  icon="edit"
+                  size="xs"
+                  @click="modalChangeStatus.show = true"
+                ></q-btn>
+                <q-btn
+                  v-if="isAdmin == true && owner == false"
+                  flat
+                  round
+                  icon="delete"
+                  size="xs"
+                  color="red"
+                  @click="deleteUserStatus(user)"
+                ></q-btn>
+              </q-item-label>
               <q-item-label caption>{{
                 user.status ? user.status : "Нет статуса"
               }}</q-item-label>
@@ -58,15 +85,44 @@
           </q-item>
           <q-item>
             <q-item-section>
-              <q-item-label>Группы</q-item-label>
-              <q-item-label caption>{{
-                user.groups && user.groups.length > 0
-                  ? user.groups.map((x) => x.groupName).join(", ")
-                  : "Нет групп"
-              }}</q-item-label>
+              <q-item-label>Группы <q-btn v-if="isAdmin == true" flat round icon="add" size="xs" @click="modalAddGroup.show = true"></q-btn></q-item-label>
+              <q-item-label
+                v-if="!user.groups || user.groups.length == 0"
+                caption
+              >
+                Нет групп</q-item-label
+              >
             </q-item-section>
           </q-item>
-          <q-separator v-if="balances.length > 0"></q-separator>
+          <q-item-section>
+            <q-list
+              bordered
+              style="max-width: 400px"
+              v-if="user.groups && user.groups.length > 0"
+            >
+              <q-item v-for="group in user.groups" v-bind:key="group.name">
+                <q-item-section>
+                  <q-item-label>
+                    {{ group.groupName }}
+                  </q-item-label>
+                </q-item-section>
+                <q-item-section side>
+                  <q-btn v-if="isAdmin == true && !(owner == true && group.groupName == 'ADMIN')" flat round icon="delete" @click="deleteUserGroup(user, group)"></q-btn>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-item-section>
+          <q-item>
+            <q-item-section>
+              <q-item-label>
+                Баланс
+              </q-item-label>
+              <q-item-label v-if="balances.length == 0" caption>
+                Отсутствует
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+          <q-list bordered>
           <q-item v-for="balance in balances" v-bind:key="balance.id">
             <q-item-section>
               <q-item-label>{{ balance.currency }}</q-item-label>
@@ -76,26 +132,24 @@
               >
             </q-item-section>
           </q-item>
-          <q-separator></q-separator>
+          </q-list>
           <q-list>
             <q-item v-if="owner == true">
               <q-btn-group>
                 <q-btn @click="modalChangePassword.show = true"
                   >Сменить пароль</q-btn
                 >
-                <q-btn v-if="isAdmin == true" @click="modalChangePassword.show = true"
+                <q-btn
+                  v-if="isAdmin == true"
+                  @click="modalChangePassword.show = true"
                   >Включить 2FA</q-btn
                 >
               </q-btn-group>
             </q-item>
             <q-item v-if="isAdmin == true">
               <q-btn-group>
-                <q-btn color="red"
-                  >Забанить</q-btn
-                >
-                <q-btn color="red"
-                  >Удалить</q-btn
-                >
+                <q-btn color="red">Забанить</q-btn>
+                <q-btn color="red">Удалить</q-btn>
               </q-btn-group>
             </q-item>
           </q-list>
@@ -117,6 +171,14 @@
     </upload-cape-dialog>
 
     <change-password-dialog ref="modalChangePassword"> </change-password-dialog>
+
+    <change-status-dialog
+      ref="modalChangeStatus"
+      :oldStatus="user.status ? user.status : null"
+    >
+    </change-status-dialog>
+
+    <admin-add-group-dialog ref="modalAddGroup" :user="user"></admin-add-group-dialog>
   </q-card>
 </template>
 <script>
@@ -129,6 +191,8 @@ import ChangePasswordDialog from "./ChangePasswordDialog.vue";
 import ChangePasswordDialog1 from "./ChangePasswordDialog.vue";
 import HeadAvatar from "./HeadAvatar.vue";
 import { useQuasar } from "quasar";
+import ChangeStatusDialog from "./ChangeStatusDialog.vue";
+import AdminAddGroupDialog from "./AdminAddGroupDialog.vue";
 
 export default defineComponent({
   components: {
@@ -138,6 +202,8 @@ export default defineComponent({
     ChangePasswordDialog,
     ChangePasswordDialog1,
     HeadAvatar,
+    ChangeStatusDialog,
+    AdminAddGroupDialog,
   },
   props: {
     user: {
@@ -154,6 +220,8 @@ export default defineComponent({
     const modalSkin = ref(false);
     const modalCape = ref(false);
     const modalChangePassword = ref(false);
+    const modalChangeStatus = ref(false);
+    const modalAddGroup = ref(false);
     async function updateInfo(user) {
       if (!user) {
         return;
@@ -183,31 +251,75 @@ export default defineComponent({
       }
     }
     async function adminDeleteAsset(user, assetName) {
-      var result = await $store
-          .dispatch("api/request", {
-            url: "users/id/"+user.id+"/asset/"+assetName,
-            method: "DELETE",
-          });
-      if(result.ok) {
+      var result = await $store.dispatch("api/request", {
+        url: "users/id/" + user.id + "/asset/" + assetName,
+        method: "DELETE",
+      });
+      if (result.ok) {
         $q.notify({
-            "type": "positive",
-            "message": "Ассет "+assetName+" успешно удалён"
-          })
+          type: "positive",
+          message: "Ассет " + assetName + " успешно удалён",
+        });
         delete user.assets[assetName.toLowerCase()];
       } else {
         $q.notify({
-            "type": "negative",
-            "message": "Произошла ошибка при удалении ассета "+assetName+" SC"+result.data.code
-          })
+          type: "negative",
+          message:
+            "Произошла ошибка при удалении ассета " +
+            assetName +
+            " SC" +
+            result.data.code,
+        });
       }
     }
     var updateAsset = (assetName, data) => {
-        if(props.owner == true) {
-            $store.commit("api/updateCurrentUserAsset", {"name" : assetName, "value": data})
-        } else {
-            user.assets[assetName] = data
-        }
+      if (props.owner == true) {
+        $store.commit("api/updateCurrentUserAsset", {
+          name: assetName,
+          value: data,
+        });
+      } else {
+        user.assets[assetName] = data;
+      }
     };
+    async function deleteUserStatus(user) {
+      var result = await $store.dispatch("api/request", {
+        url: "users/id/" + user.id + "/status",
+        method: "DELETE",
+      });
+      if (result.ok) {
+        $q.notify({
+          type: "positive",
+          message: "Статус успешно удалён",
+        });
+        user.status = null;
+      } else {
+        $q.notify({
+          type: "negative",
+          message:
+            "Произошла ошибка при удалении статуса: SC" + result.data.code,
+        });
+      }
+    }
+    async function deleteUserGroup(user, group) {
+      var result = await $store.dispatch("api/request", {
+        url: "users/id/" + user.id + "/group/"+group.groupName,
+        method: "DELETE",
+      });
+      if (result.ok) {
+        $q.notify({
+          type: "positive",
+          message: "Группа успешно удалена",
+        });
+        //user.groups.remove(group); // TODO
+      } else {
+        $q.notify({
+          type: "negative",
+          message:
+            "Произошла ошибка при удалении статуса: SC" + result.data.code,
+        });
+      }
+    }
     updateInfo(props.user);
     const authWatch = watch(
       () => $store.state.api.user,
@@ -221,10 +333,14 @@ export default defineComponent({
       modalSkin,
       modalCape,
       modalChangePassword,
+      modalChangeStatus,
+      modalAddGroup,
       authWatch,
       isAdmin: computed(() => $store.getters["api/isAdmin"]),
       adminDeleteAsset,
-      updateAsset
+      deleteUserStatus,
+      deleteUserGroup,
+      updateAsset,
     };
   },
 });

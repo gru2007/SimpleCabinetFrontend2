@@ -11,3 +11,6 @@ export function updateCurrentUser(state, data) {
 export function setAuth(state, data) {
   state.isAuth = data;
 }
+export function updateCurrentUserStatus(state, data) {
+  state.user.status = data;
+}
