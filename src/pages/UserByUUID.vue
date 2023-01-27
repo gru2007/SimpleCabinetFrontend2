@@ -11,7 +11,7 @@ import Profile from "src/components/Profile.vue";
 import { computed, ref, defineComponent } from "vue";
 import { useStore, mapState } from "vuex";
 import { useRoute } from "vue-router"
-import Error404 from "src/components/Error404.vue";
+import Error404 from "src/components/utils/Error404.vue";
 
 export default defineComponent({
   components: { Profile, Error404 },

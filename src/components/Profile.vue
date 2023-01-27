@@ -183,18 +183,18 @@
   </q-card>
 </template>
 <script>
-import SkinView3d from "src/components/SkinView3d.vue";
+import SkinView3d from "src/components/utils/SkinView3d.vue";
 import { computed, defineComponent, ref, watch } from "vue";
 import { useStore, mapState } from "vuex";
-import UploadSkinDialog from "./UploadSkinDialog.vue";
-import UploadCapeDialog from "./UploadCapeDialog.vue";
-import ChangePasswordDialog from "./ChangePasswordDialog.vue";
-import ChangePasswordDialog1 from "./ChangePasswordDialog.vue";
-import HeadAvatar from "./HeadAvatar.vue";
+import UploadSkinDialog from "./dialogs/UploadSkinDialog.vue";
+import UploadCapeDialog from "./dialogs/UploadCapeDialog.vue";
+import ChangePasswordDialog from "./dialogs/ChangePasswordDialog.vue";
+import ChangePasswordDialog1 from "./dialogs/ChangePasswordDialog.vue";
+import HeadAvatar from "./utils/HeadAvatar.vue";
 import { useQuasar } from "quasar";
-import ChangeStatusDialog from "./ChangeStatusDialog.vue";
-import AdminAddGroupDialog from "./AdminAddGroupDialog.vue";
-import AdminAddMoneyDialog from "./AdminAddMoneyDialog.vue";
+import ChangeStatusDialog from "./dialogs/ChangeStatusDialog.vue";
+import AdminAddGroupDialog from "./dialogs/AdminAddGroupDialog.vue";
+import AdminAddMoneyDialog from "./dialogs/AdminAddMoneyDialog.vue";
 
 export default defineComponent({
   components: {

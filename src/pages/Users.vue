@@ -49,7 +49,7 @@ import Profile from "src/components/Profile.vue";
 import { computed, defineComponent, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useStore, mapState } from "vuex";
-import HeadAvatar from "src/components/HeadAvatar.vue";
+import HeadAvatar from "src/components/utils/HeadAvatar.vue";
 
 export default defineComponent({
   components: { Profile, HeadAvatar },
