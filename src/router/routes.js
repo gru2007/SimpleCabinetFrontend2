@@ -15,6 +15,13 @@ const routes = [
     ]
   },
   {
+    path: '/users',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Users.vue') }
+    ]
+  },
+  {
     path: '/user/name/:username',
     component: () => import('layouts/MainLayout.vue'),
     children: [

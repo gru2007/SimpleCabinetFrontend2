@@ -33,6 +33,11 @@
             <q-item-label>Главная</q-item-label>
           </q-item-section>
         </q-item>
+        <q-item clickable to="/users">
+          <q-item-section>
+            <q-item-label>Пользователи</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 

@@ -115,7 +115,7 @@
           <q-item>
             <q-item-section>
               <q-item-label>
-                Баланс
+                Баланс <q-btn v-if="isAdmin == true" flat round icon="add" size="xs" @click="modalAddMoney.show = true"></q-btn>
               </q-item-label>
               <q-item-label v-if="balances.length == 0" caption>
                 Отсутствует
@@ -179,6 +179,7 @@
     </change-status-dialog>
 
     <admin-add-group-dialog ref="modalAddGroup" :user="user"></admin-add-group-dialog>
+    <admin-add-money-dialog ref="modalAddMoney" :user="user"></admin-add-money-dialog>
   </q-card>
 </template>
 <script>
@@ -193,6 +194,7 @@ import HeadAvatar from "./HeadAvatar.vue";
 import { useQuasar } from "quasar";
 import ChangeStatusDialog from "./ChangeStatusDialog.vue";
 import AdminAddGroupDialog from "./AdminAddGroupDialog.vue";
+import AdminAddMoneyDialog from "./AdminAddMoneyDialog.vue";
 
 export default defineComponent({
   components: {
@@ -204,6 +206,7 @@ export default defineComponent({
     HeadAvatar,
     ChangeStatusDialog,
     AdminAddGroupDialog,
+    AdminAddMoneyDialog,
   },
   props: {
     user: {
@@ -222,6 +225,7 @@ export default defineComponent({
     const modalChangePassword = ref(false);
     const modalChangeStatus = ref(false);
     const modalAddGroup = ref(false);
+    const modalAddMoney = ref(false);
     async function updateInfo(user) {
       if (!user) {
         return;
@@ -335,6 +339,7 @@ export default defineComponent({
       modalChangePassword,
       modalChangeStatus,
       modalAddGroup,
+      modalAddMoney,
       authWatch,
       isAdmin: computed(() => $store.getters["api/isAdmin"]),
       adminDeleteAsset,
