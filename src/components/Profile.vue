@@ -148,8 +148,8 @@
             </q-item>
             <q-item v-if="isAdmin == true">
               <q-btn-group>
-                <q-btn color="red">Забанить</q-btn>
-                <q-btn color="red">Удалить</q-btn>
+                <q-btn color="red" @click="modalBan.show = true">Забанить</q-btn>
+                <q-btn color="red" @click="unban(user)">Разбанить</q-btn>
               </q-btn-group>
             </q-item>
           </q-list>
@@ -180,6 +180,7 @@
 
     <admin-add-group-dialog ref="modalAddGroup" :user="user"></admin-add-group-dialog>
     <admin-add-money-dialog ref="modalAddMoney" :user="user"></admin-add-money-dialog>
+    <ban-dialog ref="modalBan" :user="user"></ban-dialog>
   </q-card>
 </template>
 <script>
@@ -189,7 +190,7 @@ import { useStore, mapState } from "vuex";
 import UploadSkinDialog from "./dialogs/UploadSkinDialog.vue";
 import UploadCapeDialog from "./dialogs/UploadCapeDialog.vue";
 import ChangePasswordDialog from "./dialogs/ChangePasswordDialog.vue";
-import ChangePasswordDialog1 from "./dialogs/ChangePasswordDialog.vue";
+import BanDialog from "./dialogs/BanDialog.vue";
 import HeadAvatar from "./utils/HeadAvatar.vue";
 import { useQuasar } from "quasar";
 import ChangeStatusDialog from "./dialogs/ChangeStatusDialog.vue";
@@ -202,7 +203,7 @@ export default defineComponent({
     UploadSkinDialog,
     UploadCapeDialog,
     ChangePasswordDialog,
-    ChangePasswordDialog1,
+    BanDialog,
     HeadAvatar,
     ChangeStatusDialog,
     AdminAddGroupDialog,
@@ -226,6 +227,7 @@ export default defineComponent({
     const modalChangeStatus = ref(false);
     const modalAddGroup = ref(false);
     const modalAddMoney = ref(false);
+    const modalBan = ref(false);
     async function updateInfo(user) {
       if (!user) {
         return;
@@ -324,6 +326,27 @@ export default defineComponent({
         });
       }
     }
+    async function unban(user) {
+      var result = await $store.dispatch("api/request", {
+        url: "admin/moderation/unban/" + user.id,
+        method: "POST",
+        body: {}
+      });
+      if (result.ok) {
+        $q.notify({
+          type: "positive",
+          message: "Пользователь успешно разбанен",
+        });
+        //user.groups.remove(group); // TODO
+      } else {
+        var error = result.data;
+        $q.notify({
+          type: "negative",
+          message:
+            "Произошла ошибка при разбане пользователя: SC" + error.code + ": " + error.error,
+        });
+      }
+    }
     updateInfo(props.user);
     const authWatch = watch(
       () => $store.state.api.user,
@@ -340,12 +363,14 @@ export default defineComponent({
       modalChangeStatus,
       modalAddGroup,
       modalAddMoney,
+      modalBan,
       authWatch,
       isAdmin: computed(() => $store.getters["api/isAdmin"]),
       adminDeleteAsset,
       deleteUserStatus,
       deleteUserGroup,
       updateAsset,
+      unban,
     };
   },
 });
