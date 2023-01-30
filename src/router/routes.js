@@ -51,6 +51,13 @@ const routes = [
       { path: '', component: () => import('pages/Auth.vue') }
     ]
   },
+  {
+    path: '/shop/items',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Shop.vue') }
+    ]
+  },
 
   // Always leave this as last one,
   // but you can also remove it
