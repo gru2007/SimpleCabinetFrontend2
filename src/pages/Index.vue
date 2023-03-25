@@ -13,15 +13,15 @@ export default defineComponent({
   setup() {
     const $store = useStore()
     const $router = useRouter()
-    if($store.state.api.isAuth === false) {
+    if ($store.state.api.isAuth === false) {
       $router.push("/auth")
-    } else if($store.state.api.isAuth === true) {
+    } else if ($store.state.api.isAuth === true) {
       $router.push("/cabinet")
     }
     const authWatch = watch(() => $store.state.api.isAuth, (value, oldValue) => {
-      if(value === false) {
+      if (value === false) {
         $router.push("/auth")
-      } else if(value === true) {
+      } else if (value === true) {
         $router.push("/cabinet")
       }
     })

@@ -1,29 +1,29 @@
 <template>
-      <q-dialog v-model="show">
-      <q-card>
-        <q-card-section class="row items-center q-pb-none">
-          <div class="text-h6">Изменение пароля</div>
-          <q-space></q-space>
-          <q-btn icon="close" flat round dense v-close-popup></q-btn>
-        </q-card-section>
-        <q-card-section>
-          <q-input filled v-model="oldPassword" type="password" label="Старый пароль *" lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Введите старый пароль']">
-          </q-input>
-          <q-input filled v-model="newPassword" type="password" label="Новый пароль *" lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Введите новый пароль']">
-          </q-input>
-          <q-input filled v-model="newPasswordRetry" type="password" label="Повторите пароль *" lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Введите новый пароль еще раз']">
-          </q-input>
-        </q-card-section>
-        <q-separator dark></q-separator>
+  <q-dialog v-model="show">
+    <q-card>
+      <q-card-section class="row items-center q-pb-none">
+        <div class="text-h6">Изменение пароля</div>
+        <q-space></q-space>
+        <q-btn icon="close" flat round dense v-close-popup></q-btn>
+      </q-card-section>
+      <q-card-section>
+        <q-input filled v-model="oldPassword" type="password" label="Старый пароль *" lazy-rules
+          :rules="[val => val && val.length > 0 || 'Введите старый пароль']">
+        </q-input>
+        <q-input filled v-model="newPassword" type="password" label="Новый пароль *" lazy-rules
+          :rules="[val => val && val.length > 0 || 'Введите новый пароль']">
+        </q-input>
+        <q-input filled v-model="newPasswordRetry" type="password" label="Повторите пароль *" lazy-rules
+          :rules="[val => val && val.length > 0 || 'Введите новый пароль еще раз']">
+        </q-input>
+      </q-card-section>
+      <q-separator dark></q-separator>
 
-        <q-card-actions>
-          <q-btn flat color="primary" @click="changePassword">Изменить</q-btn>
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
+      <q-card-actions>
+        <q-btn flat color="primary" @click="changePassword">Изменить</q-btn>
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 <script>
 import { useQuasar } from "quasar";
@@ -40,7 +40,7 @@ export default defineComponent({
     let show = ref(false);
     return {
       async changePassword() {
-        if(newPassword.value != newPasswordRetry.value) {
+        if (newPassword.value != newPasswordRetry.value) {
           $q.notify({
             "type": "negative",
             "message": "Пароли не совпадают"
@@ -55,7 +55,7 @@ export default defineComponent({
             newPassword: newPassword.value,
           },
         });
-        if(result.ok) {
+        if (result.ok) {
           $q.notify({
             "type": "positive",
             "message": "Пароль успешно изменен"

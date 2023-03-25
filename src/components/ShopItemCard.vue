@@ -6,8 +6,7 @@
     <q-separator></q-separator>
     <q-card-section>{{ item.description }}</q-card-section>
     <q-card-actions>
-      <q-input v-model.number="num"
-      type="number"></q-input>
+      <q-input v-model.number="num" type="number"></q-input>
       <span style="margin: 1em"> {{ sum }} {{ item.currency }} </span>
       <q-btn flat color="blue" @click="buy">Купить</q-btn>
     </q-card-actions>
@@ -40,7 +39,7 @@ export default defineComponent({
             "quantity": num.value
           },
         });
-        if(result.ok) {
+        if (result.ok) {
           $q.notify({
             "type": "positive",
             "message": "Покупка успешно совершена"

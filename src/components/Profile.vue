@@ -3,9 +3,7 @@
     <q-item>
       <q-item-section avatar>
         <q-avatar>
-          <head-avatar
-            :skin="user.assets ? user.assets.skin : null"
-          ></head-avatar>
+          <head-avatar :skin="user.assets ? user.assets.skin : null"></head-avatar>
         </q-avatar>
       </q-item-section>
 
@@ -17,40 +15,23 @@
     <q-separator></q-separator>
     <q-card-section horizontal>
       <q-card-section>
-        <skin-view-3d
-          :skinUrl="
-            user && user.assets && user.assets.skin
-              ? user.assets.skin.url
-              : null
-          "
-          :capeUrl="
-            user && user.assets && user.assets.cape
-              ? user.assets.cape.url
-              : null
-          "
-        >
+        <skin-view-3d :skinUrl="
+          user && user.assets && user.assets.skin
+            ? user.assets.skin.url
+            : null
+        " :capeUrl="
+  user && user.assets && user.assets.cape
+    ? user.assets.cape.url
+    : null
+">
         </skin-view-3d>
         <q-card-actions>
-          <q-btn v-if="owner == true" flat @click="modalSkin.show = true"
-            >Изменить скин</q-btn
-          >
-          <q-btn v-if="owner == true" flat @click="modalCape.show = true"
-            >Изменить плащ</q-btn
-          >
-          <q-btn
-            v-if="owner == false && isAdmin == true"
-            flat
-            color="red"
-            @click="adminDeleteAsset(user, 'SKIN')"
-            >Удалить скин</q-btn
-          >
-          <q-btn
-            v-if="owner == false && isAdmin == true"
-            flat
-            color="red"
-            @click="adminDeleteAsset(user, 'CAPE')"
-            >Удалить плащ</q-btn
-          >
+          <q-btn v-if="owner == true" flat @click="modalSkin.show = true">Изменить скин</q-btn>
+          <q-btn v-if="owner == true" flat @click="modalCape.show = true">Изменить плащ</q-btn>
+          <q-btn v-if="owner == false && isAdmin == true" flat color="red" @click="adminDeleteAsset(user, 'SKIN')">Удалить
+            скин</q-btn>
+          <q-btn v-if="owner == false && isAdmin == true" flat color="red" @click="adminDeleteAsset(user, 'CAPE')">Удалить
+            плащ</q-btn>
         </q-card-actions>
       </q-card-section>
       <q-separator vertical></q-separator>
@@ -58,25 +39,11 @@
         <q-list>
           <q-item>
             <q-item-section>
-              <q-item-label
-                >Статус
-                <q-btn
-                  v-if="owner == true"
-                  flat
-                  round
-                  icon="edit"
-                  size="xs"
-                  @click="modalChangeStatus.show = true"
-                ></q-btn>
-                <q-btn
-                  v-if="isAdmin == true && owner == false"
-                  flat
-                  round
-                  icon="delete"
-                  size="xs"
-                  color="red"
-                  @click="deleteUserStatus(user)"
-                ></q-btn>
+              <q-item-label>Статус
+                <q-btn v-if="owner == true" flat round icon="edit" size="xs"
+                  @click="modalChangeStatus.show = true"></q-btn>
+                <q-btn v-if="isAdmin == true && owner == false" flat round icon="delete" size="xs" color="red"
+                  @click="deleteUserStatus(user)"></q-btn>
               </q-item-label>
               <q-item-label caption>{{
                 user.status ? user.status : "Нет статуса"
@@ -85,21 +52,14 @@
           </q-item>
           <q-item>
             <q-item-section>
-              <q-item-label>Группы <q-btn v-if="isAdmin == true" flat round icon="add" size="xs" @click="modalAddGroup.show = true"></q-btn></q-item-label>
-              <q-item-label
-                v-if="!user.groups || user.groups.length == 0"
-                caption
-              >
-                Нет групп</q-item-label
-              >
+              <q-item-label>Группы <q-btn v-if="isAdmin == true" flat round icon="add" size="xs"
+                  @click="modalAddGroup.show = true"></q-btn></q-item-label>
+              <q-item-label v-if="!user.groups || user.groups.length == 0" caption>
+                Нет групп</q-item-label>
             </q-item-section>
           </q-item>
           <q-item-section>
-            <q-list
-              bordered
-              style="max-width: 400px"
-              v-if="user.groups && user.groups.length > 0"
-            >
+            <q-list bordered style="max-width: 400px" v-if="user.groups && user.groups.length > 0">
               <q-item v-for="group in user.groups" v-bind:key="group.name">
                 <q-item-section>
                   <q-item-label>
@@ -107,7 +67,8 @@
                   </q-item-label>
                 </q-item-section>
                 <q-item-section side>
-                  <q-btn v-if="isAdmin == true && !(owner == true && group.groupName == 'ADMIN')" flat round icon="delete" @click="deleteUserGroup(user, group)"></q-btn>
+                  <q-btn v-if="isAdmin == true && !(owner == true && group.groupName == 'ADMIN')" flat round icon="delete"
+                    @click="deleteUserGroup(user, group)"></q-btn>
                 </q-item-section>
               </q-item>
             </q-list>
@@ -115,7 +76,8 @@
           <q-item>
             <q-item-section>
               <q-item-label>
-                Баланс <q-btn v-if="isAdmin == true" flat round icon="add" size="xs" @click="modalAddMoney.show = true"></q-btn>
+                Баланс <q-btn v-if="isAdmin == true" flat round icon="add" size="xs"
+                  @click="modalAddMoney.show = true"></q-btn>
               </q-item-label>
               <q-item-label v-if="balances.length == 0" caption>
                 Отсутствует
@@ -123,27 +85,19 @@
             </q-item-section>
           </q-item>
           <q-list bordered>
-          <q-item v-for="balance in balances" v-bind:key="balance.id">
-            <q-item-section>
-              <q-item-label>{{ balance.currency }}</q-item-label>
-              <q-item-label caption
-                >Баланс: {{ balance.balance }} | Номер:
-                {{ balance.id }}</q-item-label
-              >
-            </q-item-section>
-          </q-item>
+            <q-item v-for="balance in balances" v-bind:key="balance.id">
+              <q-item-section>
+                <q-item-label>{{ balance.currency }}</q-item-label>
+                <q-item-label caption>Баланс: {{ balance.balance }} | Номер:
+                  {{ balance.id }}</q-item-label>
+              </q-item-section>
+            </q-item>
           </q-list>
           <q-list>
             <q-item v-if="owner == true">
               <q-btn-group>
-                <q-btn @click="modalChangePassword.show = true"
-                  >Сменить пароль</q-btn
-                >
-                <q-btn
-                  v-if="isAdmin == true"
-                  @click="modalChangePassword.show = true"
-                  >Включить 2FA</q-btn
-                >
+                <q-btn @click="modalChangePassword.show = true">Сменить пароль</q-btn>
+                <q-btn v-if="isAdmin == true" @click="modalChangePassword.show = true">Включить 2FA</q-btn>
               </q-btn-group>
             </q-item>
             <q-item v-if="isAdmin == true">
@@ -156,26 +110,17 @@
         </q-list>
       </q-card-section>
     </q-card-section>
-    <upload-skin-dialog
-      ref="modalSkin"
-      :skin="user.assets ? user.assets.skin : null"
-      @update="(data) => updateAsset('skin', data)"
-    >
+    <upload-skin-dialog ref="modalSkin" :skin="user.assets ? user.assets.skin : null"
+      @update="(data) => updateAsset('skin', data)">
     </upload-skin-dialog>
 
-    <upload-cape-dialog
-      ref="modalCape"
-      :cape="user.assets ? user.assets.cape : null"
-      @update="(data) => updateAsset('cape', data)"
-    >
+    <upload-cape-dialog ref="modalCape" :cape="user.assets ? user.assets.cape : null"
+      @update="(data) => updateAsset('cape', data)">
     </upload-cape-dialog>
 
     <change-password-dialog ref="modalChangePassword"> </change-password-dialog>
 
-    <change-status-dialog
-      ref="modalChangeStatus"
-      :oldStatus="user.status ? user.status : null"
-    >
+    <change-status-dialog ref="modalChangeStatus" :oldStatus="user.status ? user.status : null">
     </change-status-dialog>
 
     <admin-add-group-dialog ref="modalAddGroup" :user="user"></admin-add-group-dialog>
@@ -309,7 +254,7 @@ export default defineComponent({
     }
     async function deleteUserGroup(user, group) {
       var result = await $store.dispatch("api/request", {
-        url: "users/id/" + user.id + "/group/"+group.groupName,
+        url: "users/id/" + user.id + "/group/" + group.groupName,
         method: "DELETE",
       });
       if (result.ok) {

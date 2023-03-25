@@ -2,40 +2,16 @@
   <q-card>
     <q-card-section>
       <div class="text-h6">Регистрация в личном кабинете</div>
-      <q-input
-        filled
-        v-model="username"
-        label="Ваш логин *"
-        lazy-rules
-        :rules="[
-          (val) => (val && val.length > 0) || 'Это поле не может быть пустым',
-        ]"
-      ></q-input>
-      <q-input
-        filled
-        v-model="email"
-        label="Ваш Email *"
-        lazy-rules
-        :rules="[
-          (val) => (val && val.length > 0) || 'Это поле не может быть пустым',
-        ]"
-      ></q-input>
-      <q-input
-        filled
-        v-model="password"
-        label="Ваш пароль *"
-        type="password"
-        lazy-rules
-        :rules="[
-          (val) => (val && val.length > 0) || 'Это поле не может быть пустым',
-        ]"
-      ></q-input>
-      <div
-  class="h-captcha"
-  :data-sitekey="sitekey"
-
-  data-error-callback="onError"
-></div>
+      <q-input filled v-model="username" label="Ваш логин *" lazy-rules :rules="[
+        (val) => (val && val.length > 0) || 'Это поле не может быть пустым',
+      ]"></q-input>
+      <q-input filled v-model="email" label="Ваш Email *" lazy-rules :rules="[
+        (val) => (val && val.length > 0) || 'Это поле не может быть пустым',
+      ]"></q-input>
+      <q-input filled v-model="password" label="Ваш пароль *" type="password" lazy-rules :rules="[
+        (val) => (val && val.length > 0) || 'Это поле не может быть пустым',
+      ]"></q-input>
+      <div class="h-captcha" :data-sitekey="sitekey" data-error-callback="onError"></div>
     </q-card-section>
     <q-card-actions>
       <q-btn flat @click="register">Зарегистрироватся</q-btn>
@@ -68,7 +44,7 @@ export default defineComponent({
           },
         });
         console.log(result);
-        if(result.ok) {
+        if (result.ok) {
           $q.notify({
             "type": "positive",
             "message": "Регистрация прошла успешно"

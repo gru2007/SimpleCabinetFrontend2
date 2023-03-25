@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-  <auth-pane />
+    <auth-pane />
   </q-page>
 </template>
 

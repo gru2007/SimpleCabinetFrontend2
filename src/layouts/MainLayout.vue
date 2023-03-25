@@ -2,14 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
           SimpleCabinet 2
@@ -18,14 +11,9 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      bordered
-    >
+    <q-drawer v-model="leftDrawerOpen" bordered>
       <q-list>
-        <q-item-label
-          header
-        >
+        <q-item-label header>
           Меню
         </q-item-label>
         <q-item clickable :to="isAuth === true ? '/cabinet' : '/auth'">
@@ -57,7 +45,7 @@ import { mapState, useStore } from 'vuex';
 export default defineComponent({
   name: 'MainLayout',
 
-  setup () {
+  setup() {
     const $router = useRouter()
     const $store = useStore()
     const $q = useQuasar()
@@ -66,7 +54,7 @@ export default defineComponent({
     return {
       leftDrawerOpen,
       isAuth: computed(() => $store.state.api.isAuth),
-      toggleLeftDrawer () {
+      toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value
       },
       redirectMain() {
@@ -79,7 +67,7 @@ export default defineComponent({
           body: {
           },
         });
-        if(result.ok) {
+        if (result.ok) {
           $store.commit("api/setAuth", false)
           localStorage.removeItem("session")
           $router.push("/auth")

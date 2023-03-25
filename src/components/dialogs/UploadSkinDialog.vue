@@ -1,40 +1,37 @@
 <template>
-      <q-dialog v-model="show">
-      <q-card>
-        <q-card-section class="row items-center q-pb-none">
-          <div class="text-h6">Изменение скина</div>
-          <q-space></q-space>
-          <q-btn icon="close" flat round dense v-close-popup></q-btn>
-        </q-card-section>
-        <q-card-section v-if="skin">
-          <p>
-            Текущий URL: {{ skin.url }} <br />
-            Текущий тип скина:
-            {{
-              skin.metadata && skin.metadata.model == "slim"
-                ? "Slim"
-                : "Обычный"
-            }}
-          </p>
-        </q-card-section>
-        <q-card-section>
-          <q-file v-model="file" label="Выберите файл для загрузки" accept=".png, image/png">
+  <q-dialog v-model="show">
+    <q-card>
+      <q-card-section class="row items-center q-pb-none">
+        <div class="text-h6">Изменение скина</div>
+        <q-space></q-space>
+        <q-btn icon="close" flat round dense v-close-popup></q-btn>
+      </q-card-section>
+      <q-card-section v-if="skin">
+        <p>
+          Текущий URL: {{ skin.url }} <br />
+          Текущий тип скина:
+          {{
+            skin.metadata && skin.metadata.model == "slim"
+            ? "Slim"
+            : "Обычный"
+          }}
+        </p>
+      </q-card-section>
+      <q-card-section>
+        <q-file v-model="file" label="Выберите файл для загрузки" accept=".png, image/png">
 
-          </q-file>
-          <q-toggle
-        v-model="toggleSlim"
-        label="Slim скин"
-      ></q-toggle>
-        </q-card-section>
-        <q-separator dark></q-separator>
+        </q-file>
+        <q-toggle v-model="toggleSlim" label="Slim скин"></q-toggle>
+      </q-card-section>
+      <q-separator dark></q-separator>
 
-        <q-card-actions>
-          <q-btn flat color="primary" @click="upload">Загрузить</q-btn>
-          <q-btn flat color="secondary">Изменить тип</q-btn>
-          <q-btn flat color="red" @click="remove">Удалить</q-btn>
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
+      <q-card-actions>
+        <q-btn flat color="primary" @click="upload">Загрузить</q-btn>
+        <q-btn flat color="secondary">Изменить тип</q-btn>
+        <q-btn flat color="red" @click="remove">Удалить</q-btn>
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 <script>
 import { useQuasar } from "quasar";
@@ -67,7 +64,7 @@ export default defineComponent({
           "method": "POST",
           "body": fd
         })
-        if(response.ok) {
+        if (response.ok) {
           var data = await response.json();
           $q.notify({
             "type": "positive",
@@ -87,7 +84,7 @@ export default defineComponent({
         var response = await fetch($store.state.api.url + "cabinet/upload/skin", {
           "method": "DELETE"
         })
-        if(response.ok) {
+        if (response.ok) {
           show = false
         }
       },

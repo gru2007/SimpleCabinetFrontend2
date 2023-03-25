@@ -7,42 +7,21 @@
         <q-btn icon="close" flat round dense v-close-popup></q-btn>
       </q-card-section>
       <q-card-section>
-        <q-input
-          filled
-          v-model="reason"
-          label="Причина *"
-          :rules="[(val) => (val && val.length > 0) || 'Введите причину бана']"
-          type="text"
-        ></q-input>
+        <q-input filled v-model="reason" label="Причина *"
+          :rules="[(val) => (val && val.length > 0) || 'Введите причину бана']" type="text"></q-input>
       </q-card-section>
       <q-card-section>
-      <div class="text-h7">Время бана</div>
+        <div class="text-h7">Время бана</div>
       </q-card-section>
       <q-card-section horizontal>
-        <q-date
-          :readonly="isForever"
-          v-model="endDate"
-          mask="YYYY-MM-DD HH:mm"
-        />
-        <q-time
-          :readonly="isForever"
-          v-model="endDate"
-          mask="YYYY-MM-DD HH:mm"
-        />
+        <q-date :readonly="isForever" v-model="endDate" mask="YYYY-MM-DD HH:mm" />
+        <q-time :readonly="isForever" v-model="endDate" mask="YYYY-MM-DD HH:mm" />
       </q-card-section>
       <q-card-section>
-        <q-checkbox
-          filled
-          v-model="isForever"
-          label="Бан навсегда"
-        ></q-checkbox>
+        <q-checkbox filled v-model="isForever" label="Бан навсегда"></q-checkbox>
       </q-card-section>
       <q-card-section>
-        <q-checkbox
-          filled
-          v-model="isHardware"
-          label="Бан по железу"
-        ></q-checkbox>
+        <q-checkbox filled v-model="isHardware" label="Бан по железу"></q-checkbox>
       </q-card-section>
       <q-card-actions>
         <q-btn color="red" @click="ban">Забанить</q-btn>
@@ -72,7 +51,7 @@ export default defineComponent({
     let isForever = ref(false);
     return {
       async ban() {
-        if(true) {
+        if (true) {
           console.log(new Date(endDate.value));
         }
         var result = await $store.dispatch("api/request", {

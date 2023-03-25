@@ -1,45 +1,41 @@
 <template>
   <q-page>
     <q-input filled v-model="status" label="Строка поиска *" lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Введите имя пользователя или его часть']" @click="search(status)">
+      :rules="[val => val && val.length > 0 || 'Введите имя пользователя или его часть']" @click="search(status)">
     </q-input>
     <q-card flat>
       <q-card-section>
 
-    <q-list>
-      <q-item v-for="user in users" v-bind:key="user.id">
-        <q-card style="width: 600px;">
-          <q-item>
+        <q-list>
+          <q-item v-for="user in users" v-bind:key="user.id">
+            <q-card style="width: 600px;">
+              <q-item>
                 <q-item-section avatar>
-        <q-avatar>
-          <head-avatar
-            :skin="user.assets ? user.assets.skin : null"
-          ></head-avatar>
-        </q-avatar>
-        </q-item-section>
-        <q-item-section>
+                  <q-avatar>
+                    <head-avatar :skin="user.assets ? user.assets.skin : null"></head-avatar>
+                  </q-avatar>
+                </q-item-section>
+                <q-item-section>
 
-            <q-item-label>
-              {{ user.username }}
-            </q-item-label>
-            <q-item-label caption>
-              UUID: {{ user.uuid }}
-            </q-item-label>
-        </q-item-section>
+                  <q-item-label>
+                    {{ user.username }}
+                  </q-item-label>
+                  <q-item-label caption>
+                    UUID: {{ user.uuid }}
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-separator></q-separator>
+              <q-card-section>
+                <q-btn flat @click="go(user)">Перейти в профиль</q-btn>
+              </q-card-section>
+            </q-card>
           </q-item>
-          <q-separator></q-separator>
-          <q-card-section>
-            <q-btn flat @click="go(user)">Перейти в профиль</q-btn>
-          </q-card-section>
-        </q-card>
-      </q-item>
-    </q-list>
+        </q-list>
       </q-card-section>
       <q-card-section>
 
-    <q-pagination
-    v-model="currentPage"
-    :max="maxPages"></q-pagination>
+        <q-pagination v-model="currentPage" :max="maxPages"></q-pagination>
       </q-card-section>
     </q-card>
   </q-page>

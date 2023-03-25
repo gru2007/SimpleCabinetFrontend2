@@ -23,15 +23,15 @@ export default defineComponent({
     const $route = useRoute();
     async function fetchUser(username) {
       return await $store.dispatch("api/request", {
-          url: "users/name/"+username+"?assets=true",
-          method: "GET",
-        });
+        url: "users/name/" + username + "?assets=true",
+        method: "GET",
+      });
     }
     fetchUser($route.params.username).then((r) => {
-      if(r.code == 404) {
+      if (r.code == 404) {
         err404.value = true;
       }
-      if(r.ok) {
+      if (r.ok) {
         user.value = r.data;
       }
     })

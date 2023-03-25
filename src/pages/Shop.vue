@@ -1,13 +1,11 @@
 <template>
-    <div class="q-pa-md row items-start q-gutter-md">
+  <div class="q-pa-md row items-start q-gutter-md">
 
     <shop-item-card :item="item" :key="item.id" v-for="item in items">
 
     </shop-item-card>
   </div>
-  <q-pagination
-    v-model="currentPage"
-    :max="maxPages"></q-pagination>
+  <q-pagination v-model="currentPage" :max="maxPages"></q-pagination>
 </template>
 <script>
 import ShopItemCard from "src/components/ShopItemCard.vue";
@@ -22,10 +20,10 @@ export default defineComponent({
     var maxPages = ref(1);
     var currentPage = ref(1);
     async function fetchItems(page) {
-        return await $store.dispatch("api/request", {
-          url: "shop/item/page/" + page,
-          method: "GET",
-        });
+      return await $store.dispatch("api/request", {
+        url: "shop/item/page/" + page,
+        method: "GET",
+      });
     };
     fetchItems(0).then((v) => {
       if (v.ok) {

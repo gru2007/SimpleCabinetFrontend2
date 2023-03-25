@@ -20,22 +20,22 @@ export default defineComponent({
     const canvas = ref(null);
     var skinViewer = ref(null);
     const skinWatch = watch(() => props.skinUrl, (value, oldValue) => {
-        skinViewer.loadSkin(value);
+      skinViewer.loadSkin(value);
     })
     const capeWatch = watch(() => props.capeUrl, (value, oldValue) => {
-        skinViewer.loadCape(value);
+      skinViewer.loadCape(value);
     })
     onMounted(() => {
       skinViewer = new SkinViewer({
-		    canvas: unref(canvas),
-		    width: 300,
-		    height: 400,
-		    skin: unref(props.skinUrl)
-	    });
+        canvas: unref(canvas),
+        width: 300,
+        height: 400,
+        skin: unref(props.skinUrl)
+      });
       let control = createOrbitControls(skinViewer);
-	    control.enableRotate = true;
-	    control.enableZoom = false;
-	    control.enablePan = false;
+      control.enableRotate = true;
+      control.enableZoom = false;
+      control.enablePan = false;
     });
     return {
       canvas,

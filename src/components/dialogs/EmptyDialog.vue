@@ -1,11 +1,11 @@
 <template>
-      <q-dialog v-model="show">
-      <q-card>
-        <q-card-actions>
-          <q-btn flat color="primary" @click="() => {}">Загрузить</q-btn>
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
+  <q-dialog v-model="show">
+    <q-card>
+      <q-card-actions>
+        <q-btn flat color="primary" @click="() => { }">Загрузить</q-btn>
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 <script>
 import { useQuasar } from "quasar";
