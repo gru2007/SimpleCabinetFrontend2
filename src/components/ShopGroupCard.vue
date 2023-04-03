@@ -38,7 +38,7 @@ export default defineComponent({
     return {
       async buy() {
         var result = await $store.dispatch("api/request", {
-          url: "shop/item/buy",
+          url: "shop/group/buy",
           method: "POST",
           body: {
             "id": props.item.id,

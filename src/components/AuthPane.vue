@@ -8,6 +8,9 @@
       <q-input filled v-model="password" label="Ваш пароль *" type="password" lazy-rules :rules="[
         (val) => (val && val.length > 0) || 'Это поле не может быть пустым',
       ]"></q-input>
+      <q-input v-if="require2FA" filled v-model="totp" label="Введите код 2FA *" type="password" lazy-rules :rules="[
+        (val) => (val && val.length > 0) || 'Это поле не может быть пустым',
+      ]"></q-input>
     </q-card-section>
     <q-card-actions>
       <q-btn flat @click="authorize">Войти</q-btn>
@@ -26,6 +29,8 @@ export default defineComponent({
     const $router = useRouter();
     const username = ref("");
     const password = ref("");
+    const totp = ref(null);
+    var require2FA = ref(false);
     return {
       async authorize() {
         var result = await $store.dispatch("api/request", {
@@ -34,6 +39,7 @@ export default defineComponent({
           body: {
             username: username.value,
             password: password.value,
+            totpPassword: totp.value
           },
         });
         console.log(result);
@@ -41,13 +47,17 @@ export default defineComponent({
           localStorage.setItem("session", JSON.stringify(result.data))
           $store.dispatch("api/setup", {})
           $router.push("/cabinet")
+        } else if(result.data.error == "auth.require2fa") {
+          require2FA.value = true;
         }
       },
       redirectRegister() {
         $router.push("/register")
       },
       username,
-      password
+      password,
+      require2FA,
+      totp
     };
   }
 });

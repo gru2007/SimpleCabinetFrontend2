@@ -94,10 +94,11 @@
             </q-item>
           </q-list>
           <q-list>
-            <q-item v-if="owner == true">
+            <q-item v-if="owner == true && securityInfo != null">
               <q-btn-group>
                 <q-btn @click="modalChangePassword.show = true">Сменить пароль</q-btn>
-                <q-btn v-if="isAdmin == true" @click="modalChangePassword.show = true">Включить 2FA</q-btn>
+                <q-btn v-if="securityInfo.enabled2FA == false" @click="modalEnable2FA.show = true">Включить 2FA</q-btn>
+                <q-btn v-if="securityInfo.enabled2FA == true" @click="modalDisable2FA.show = true">Выключить 2FA</q-btn>
               </q-btn-group>
             </q-item>
             <q-item v-if="isAdmin == true">
@@ -126,6 +127,8 @@
     <admin-add-group-dialog ref="modalAddGroup" :user="user"></admin-add-group-dialog>
     <admin-add-money-dialog ref="modalAddMoney" :user="user"></admin-add-money-dialog>
     <ban-dialog ref="modalBan" :user="user"></ban-dialog>
+    <enable-2fa-dialog ref="modalEnable2FA"></enable-2fa-dialog>
+    <disable-2fa-dialog ref="modalDisable2FA"></disable-2fa-dialog>
   </q-card>
 </template>
 <script>
@@ -135,6 +138,8 @@ import { useStore, mapState } from "vuex";
 import UploadSkinDialog from "./dialogs/UploadSkinDialog.vue";
 import UploadCapeDialog from "./dialogs/UploadCapeDialog.vue";
 import ChangePasswordDialog from "./dialogs/ChangePasswordDialog.vue";
+import Enable2FADialog from "./dialogs/Enable2FADialog.vue";
+import Disable2FADialog from "./dialogs/Disable2FADialog.vue";
 import BanDialog from "./dialogs/BanDialog.vue";
 import HeadAvatar from "./utils/HeadAvatar.vue";
 import { useQuasar } from "quasar";
@@ -153,6 +158,8 @@ export default defineComponent({
     ChangeStatusDialog,
     AdminAddGroupDialog,
     AdminAddMoneyDialog,
+    "enable-2fa-dialog": Enable2FADialog,
+    "disable-2fa-dialog": Disable2FADialog,
   },
   props: {
     user: {
@@ -166,10 +173,13 @@ export default defineComponent({
     const $q = useQuasar();
     const $store = useStore();
     var balances = ref([]);
+    var securityInfo = ref(null);
     const modalSkin = ref(false);
     const modalCape = ref(false);
     const modalChangePassword = ref(false);
     const modalChangeStatus = ref(false);
+    const modalEnable2FA = ref(false);
+    const modalDisable2FA = ref(false);
     const modalAddGroup = ref(false);
     const modalAddMoney = ref(false);
     const modalBan = ref(false);
@@ -186,6 +196,16 @@ export default defineComponent({
           .then((x) => {
             if (x.ok) {
               balances.value = x.data.data;
+            }
+          });
+        $store
+          .dispatch("api/request", {
+            url: "cabinet/security/info",
+            method: "GET",
+          })
+          .then((x) => {
+            if (x.ok) {
+              securityInfo.value = x.data;
             }
           });
       } else if ($store.getters["api/isAdmin"]) {
@@ -308,6 +328,8 @@ export default defineComponent({
       modalChangeStatus,
       modalAddGroup,
       modalAddMoney,
+      modalEnable2FA,
+      modalDisable2FA,
       modalBan,
       authWatch,
       isAdmin: computed(() => $store.getters["api/isAdmin"]),
@@ -316,6 +338,7 @@ export default defineComponent({
       deleteUserGroup,
       updateAsset,
       unban,
+      securityInfo,
     };
   },
 });

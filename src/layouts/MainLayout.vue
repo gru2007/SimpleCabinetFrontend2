@@ -26,6 +26,16 @@
             <q-item-label>Пользователи</q-item-label>
           </q-item-section>
         </q-item>
+        <q-item v-if="isAuth === true" clickable to="/shop/items">
+          <q-item-section>
+            <q-item-label>Магазин предметов <q-badge>ALPHA</q-badge></q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item v-if="isAuth === true" clickable to="/shop/groups">
+          <q-item-section>
+            <q-item-label>Магазин привилегий <q-badge>ALPHA</q-badge></q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
