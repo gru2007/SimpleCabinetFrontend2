@@ -65,6 +65,13 @@ const routes = [
       { path: '', component: () => import('pages/ShopGroup.vue') }
     ]
   },
+  {
+    path: '/banlist',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Banlist.vue') }
+    ]
+  },
 
   // Always leave this as last one,
   // but you can also remove it

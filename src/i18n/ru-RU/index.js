@@ -1,0 +1,17 @@
+export default {
+    "cabinet.button.change-skin": 'Изменить скин',
+    "cabinet.button.change-cape": 'Изменить плащ',
+    "cabinet.button.delete-skin": 'Удалить скин',
+    "cabinet.button.delete-cape": 'Удалить плащ',
+    "cabinet.label.status": "Статус",
+    "cabinet.label.groups": "Группы",
+    "cabinet.label.balance": "Баланс",
+    "cabinet.label.status.none": "Нет статуса",
+    "cabinet.label.groups.none": "Нет групп",
+    "cabinet.label.balance.none": "Отсутствует",
+    "cabinet.button.change-password": 'Изменить пароль',
+    "cabinet.button.enable2fa": 'Включить 2FA',
+    "cabinet.button.disable2fa": 'Отключить 2FA',
+    "cabinet.button.ban": 'Забанить',
+    "cabinet.button.unban": 'Разбанить',
+}

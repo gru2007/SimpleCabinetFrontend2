@@ -1,0 +1,17 @@
+export default {
+    "cabinet.button.change-skin": 'Change skin',
+    "cabinet.button.change-cape": 'Change cape',
+    "cabinet.button.delete-skin": 'Delete skin',
+    "cabinet.button.delete-cape": 'Delete cape',
+    "cabinet.label.status": "Status",
+    "cabinet.label.groups": "Groups",
+    "cabinet.label.balance": "Balance",
+    "cabinet.label.status.none": "None",
+    "cabinet.label.groups.none": "None",
+    "cabinet.label.balance.none": "None",
+    "cabinet.button.change-password": 'Change Password',
+    "cabinet.button.enable2fa": 'Enable 2FA',
+    "cabinet.button.disable2fa": 'Disable 2FA',
+    "cabinet.button.ban": 'Ban',
+    "cabinet.button.unban": 'Unban',
+}

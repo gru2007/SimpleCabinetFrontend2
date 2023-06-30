@@ -26,12 +26,10 @@
 ">
         </skin-view-3d>
         <q-card-actions>
-          <q-btn v-if="owner == true" flat @click="modalSkin.show = true">Изменить скин</q-btn>
-          <q-btn v-if="owner == true" flat @click="modalCape.show = true">Изменить плащ</q-btn>
-          <q-btn v-if="owner == false && isAdmin == true" flat color="red" @click="adminDeleteAsset(user, 'SKIN')">Удалить
-            скин</q-btn>
-          <q-btn v-if="owner == false && isAdmin == true" flat color="red" @click="adminDeleteAsset(user, 'CAPE')">Удалить
-            плащ</q-btn>
+          <q-btn v-if="owner == true" flat @click="modalSkin.show = true">{{ $t("cabinet.button.change-skin") }}</q-btn>
+          <q-btn v-if="owner == true" flat @click="modalCape.show = true">{{ $t("cabinet.button.change-cape") }}</q-btn>
+          <q-btn v-if="owner == false && isAdmin == true" flat color="red" @click="adminDeleteAsset(user, 'SKIN')">{{ $t("cabinet.button.delete-skin") }}</q-btn>
+          <q-btn v-if="owner == false && isAdmin == true" flat color="red" @click="adminDeleteAsset(user, 'CAPE')">{{ $t("cabinet.button.delete-cape") }}</q-btn>
         </q-card-actions>
       </q-card-section>
       <q-separator vertical></q-separator>
@@ -39,23 +37,23 @@
         <q-list>
           <q-item>
             <q-item-section>
-              <q-item-label>Статус
+              <q-item-label>{{ $t("cabinet.label.status") }}
                 <q-btn v-if="owner == true" flat round icon="edit" size="xs"
                   @click="modalChangeStatus.show = true"></q-btn>
                 <q-btn v-if="isAdmin == true && owner == false" flat round icon="delete" size="xs" color="red"
                   @click="deleteUserStatus(user)"></q-btn>
               </q-item-label>
               <q-item-label caption>{{
-                user.status ? user.status : "Нет статуса"
+                user.status ? user.status : $t("cabinet.label.status.none")
               }}</q-item-label>
             </q-item-section>
           </q-item>
           <q-item>
             <q-item-section>
-              <q-item-label>Группы <q-btn v-if="isAdmin == true" flat round icon="add" size="xs"
+              <q-item-label>{{ $t("cabinet.label.groups") }} <q-btn v-if="isAdmin == true" flat round icon="add" size="xs"
                   @click="modalAddGroup.show = true"></q-btn></q-item-label>
               <q-item-label v-if="!user.groups || user.groups.length == 0" caption>
-                Нет групп</q-item-label>
+                {{ $t("cabinet.label.groups.none") }}</q-item-label>
             </q-item-section>
           </q-item>
           <q-item-section>
@@ -76,11 +74,11 @@
           <q-item>
             <q-item-section>
               <q-item-label>
-                Баланс <q-btn v-if="isAdmin == true" flat round icon="add" size="xs"
+                {{ $t("cabinet.label.balance") }} <q-btn v-if="isAdmin == true" flat round icon="add" size="xs"
                   @click="modalAddMoney.show = true"></q-btn>
               </q-item-label>
               <q-item-label v-if="balances.length == 0" caption>
-                Отсутствует
+                {{ $t("cabinet.label.balance.none") }}
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -96,15 +94,15 @@
           <q-list>
             <q-item v-if="owner == true && securityInfo != null">
               <q-btn-group>
-                <q-btn @click="modalChangePassword.show = true">Сменить пароль</q-btn>
-                <q-btn v-if="securityInfo.enabled2FA == false" @click="modalEnable2FA.show = true">Включить 2FA</q-btn>
-                <q-btn v-if="securityInfo.enabled2FA == true" @click="modalDisable2FA.show = true">Выключить 2FA</q-btn>
+                <q-btn @click="modalChangePassword.show = true">{{ $t("cabinet.button.change-password") }}</q-btn>
+                <q-btn v-if="securityInfo.enabled2FA == false" @click="modalEnable2FA.show = true">{{ $t("cabinet.button.enable2fa") }}</q-btn>
+                <q-btn v-if="securityInfo.enabled2FA == true" @click="modalDisable2FA.show = true">{{ $t("cabinet.button.disable2fa") }}</q-btn>
               </q-btn-group>
             </q-item>
             <q-item v-if="isAdmin == true">
               <q-btn-group>
-                <q-btn color="red" @click="modalBan.show = true">Забанить</q-btn>
-                <q-btn color="red" @click="unban(user)">Разбанить</q-btn>
+                <q-btn color="red" @click="modalBan.show = true">{{ $t("cabinet.button.ban") }}</q-btn>
+                <q-btn color="red" @click="unban(user)">{{ $t("cabinet.button.unban") }}</q-btn>
               </q-btn-group>
             </q-item>
           </q-list>
