@@ -75,7 +75,8 @@
             <q-item-section>
               <q-item-label>
                 {{ $t("cabinet.label.balance") }} <q-btn v-if="isAdmin == true" flat round icon="add" size="xs"
-                  @click="modalAddMoney.show = true"></q-btn>
+                  @click="modalAddMoney.show = true"></q-btn> <q-btn v-if="owner == true" flat round icon="payment" size="xs"
+                  @click="modalPayment.show = true"></q-btn>
               </q-item-label>
               <q-item-label v-if="balances.length == 0" caption>
                 {{ $t("cabinet.label.balance.none") }}
@@ -127,6 +128,7 @@
     <ban-dialog ref="modalBan" :user="user"></ban-dialog>
     <enable-2fa-dialog ref="modalEnable2FA"></enable-2fa-dialog>
     <disable-2fa-dialog ref="modalDisable2FA"></disable-2fa-dialog>
+    <payment-dialog ref="modalPayment"></payment-dialog>
   </q-card>
 </template>
 <script>
@@ -144,6 +146,7 @@ import { useQuasar } from "quasar";
 import ChangeStatusDialog from "./dialogs/ChangeStatusDialog.vue";
 import AdminAddGroupDialog from "./dialogs/AdminAddGroupDialog.vue";
 import AdminAddMoneyDialog from "./dialogs/AdminAddMoneyDialog.vue";
+import PaymentDialog from "./dialogs/PaymentDialog.vue";
 
 export default defineComponent({
   components: {
@@ -156,6 +159,7 @@ export default defineComponent({
     ChangeStatusDialog,
     AdminAddGroupDialog,
     AdminAddMoneyDialog,
+    PaymentDialog,
     "enable-2fa-dialog": Enable2FADialog,
     "disable-2fa-dialog": Disable2FADialog,
   },
@@ -181,6 +185,7 @@ export default defineComponent({
     const modalAddGroup = ref(false);
     const modalAddMoney = ref(false);
     const modalBan = ref(false);
+    const modalPayment = ref(false);
     async function updateInfo(user) {
       if (!user) {
         return;
@@ -329,6 +334,7 @@ export default defineComponent({
       modalEnable2FA,
       modalDisable2FA,
       modalBan,
+      modalPayment,
       authWatch,
       isAdmin: computed(() => $store.getters["api/isAdmin"]),
       adminDeleteAsset,
