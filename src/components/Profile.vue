@@ -76,7 +76,8 @@
               <q-item-label>
                 {{ $t("cabinet.label.balance") }} <q-btn v-if="isAdmin == true" flat round icon="add" size="xs"
                   @click="modalAddMoney.show = true"></q-btn> <q-btn v-if="owner == true" flat round icon="payment" size="xs"
-                  @click="modalPayment.show = true"></q-btn>
+                  @click="modalPayment.show = true"></q-btn> <q-btn v-if="owner == true" flat round icon="currency_exchange" size="xs"
+                  @click="modalExchangeMoney.show = true"></q-btn>
               </q-item-label>
               <q-item-label v-if="balances.length == 0" caption>
                 {{ $t("cabinet.label.balance.none") }}
@@ -129,6 +130,7 @@
     <enable-2fa-dialog ref="modalEnable2FA"></enable-2fa-dialog>
     <disable-2fa-dialog ref="modalDisable2FA"></disable-2fa-dialog>
     <payment-dialog ref="modalPayment"></payment-dialog>
+    <exchange-money-dialog ref="modalExchangeMoney" :balances="balances" :user="user"></exchange-money-dialog>
   </q-card>
 </template>
 <script>
@@ -147,6 +149,7 @@ import ChangeStatusDialog from "./dialogs/ChangeStatusDialog.vue";
 import AdminAddGroupDialog from "./dialogs/AdminAddGroupDialog.vue";
 import AdminAddMoneyDialog from "./dialogs/AdminAddMoneyDialog.vue";
 import PaymentDialog from "./dialogs/PaymentDialog.vue";
+import ExchangeMoneyDialog from "./dialogs/ExchangeMoneyDialog.vue";
 
 export default defineComponent({
   components: {
@@ -160,6 +163,7 @@ export default defineComponent({
     AdminAddGroupDialog,
     AdminAddMoneyDialog,
     PaymentDialog,
+    ExchangeMoneyDialog,
     "enable-2fa-dialog": Enable2FADialog,
     "disable-2fa-dialog": Disable2FADialog,
   },
@@ -186,6 +190,7 @@ export default defineComponent({
     const modalAddMoney = ref(false);
     const modalBan = ref(false);
     const modalPayment = ref(false);
+    const modalExchangeMoney = ref(false);
     async function updateInfo(user) {
       if (!user) {
         return;
@@ -335,6 +340,7 @@ export default defineComponent({
       modalDisable2FA,
       modalBan,
       modalPayment,
+      modalExchangeMoney,
       authWatch,
       isAdmin: computed(() => $store.getters["api/isAdmin"]),
       adminDeleteAsset,
