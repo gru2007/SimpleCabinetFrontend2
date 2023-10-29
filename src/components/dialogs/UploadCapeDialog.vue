@@ -19,7 +19,7 @@
       <q-separator dark></q-separator>
 
       <q-card-actions>
-        <q-btn flat color="primary" @click="upload">Загрузить</q-btn>
+        <q-btn flat color="primary" @click="upload" :disable="!file">Загрузить</q-btn>
         <q-btn flat color="red" @click="remove">Удалить</q-btn>
       </q-card-actions>
     </q-card>
