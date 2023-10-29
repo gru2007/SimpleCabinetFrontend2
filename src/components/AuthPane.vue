@@ -21,12 +21,14 @@
 <script>
 import { defineComponent, ref } from "vue";
 import { useStore } from "vuex";
-import { useRouter } from "vue-router"
+import { useRouter } from "vue-router";
+import { useQuasar } from "quasar";
 
 export default defineComponent({
   setup() {
     const $store = useStore();
     const $router = useRouter();
+    const $q = useQuasar();
     const username = ref("");
     const password = ref("");
     const totp = ref(null);
@@ -49,6 +51,12 @@ export default defineComponent({
           $router.push("/cabinet")
         } else if(result.data.error == "auth.require2fa") {
           require2FA.value = true;
+        } else {
+          var error = result.data;
+          $q.notify({
+            "type": "negative",
+            "message": "Ошибка при авторизации: SC" + error.code + ": " + error.error
+          })
         }
       },
       redirectRegister() {

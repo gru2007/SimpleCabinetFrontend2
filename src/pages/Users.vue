@@ -88,7 +88,7 @@ export default defineComponent({
             if (v.ok) {
               users.value = v.data.data;
               console.log(v.data);
-              maxPages.value = v.data.maxPages;
+              maxPages.value = v.data.totalPages;
               currentPage.value = value;
             }
           });

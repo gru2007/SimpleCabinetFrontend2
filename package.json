@@ -21,7 +21,7 @@
     "vuex": "^4.0.1"
   },
   "devDependencies": {
-    "@quasar/app": "^3.0.0",
+    "@quasar/app-webpack": "^3.0.0",
     "dotenv": "^16.0.0"
   },
   "browserslist": [

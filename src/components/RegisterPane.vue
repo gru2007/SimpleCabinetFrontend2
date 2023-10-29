@@ -50,6 +50,12 @@ export default defineComponent({
             "message": "Регистрация прошла успешно"
           })
           $router.push("/")
+        } else {
+          var error = result.data;
+          $q.notify({
+            "type": "negative",
+            "message": "Ошибка при регистрации: SC" + error.code + ": " + error.error
+          })
         }
       },
       sitekey: computed(() => $store.state.api.recaptcha.sitekey),
