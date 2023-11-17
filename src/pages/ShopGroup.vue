@@ -35,6 +35,21 @@ export default defineComponent({
         currentPage.value = 1;
       }
     });
+    var watcher = watch(
+      () => currentPage.value,
+      (value, oldValue) => {
+        if (value != oldValue) {
+          fetchItems(value - 1).then((v) => {
+            if (v.ok) {
+              users.value = v.data.data;
+              console.log(v.data);
+              maxPages.value = v.data.totalPages;
+              currentPage.value = value;
+            }
+          });
+        }
+      }
+    );
     return {
       fetchItems,
       items,

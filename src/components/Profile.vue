@@ -91,6 +91,9 @@
                 <q-item-label caption>Баланс: {{ balance.balance }} | Номер:
                   {{ balance.id }}</q-item-label>
               </q-item-section>
+              <q-item-section side>
+                <q-btn v-if="isAdmin == true" flat round icon="list" @click="modalTransactionsBalance = balance; modalTransactions.show = true"></q-btn>
+              </q-item-section>
             </q-item>
           </q-list>
           <q-list>
@@ -131,6 +134,7 @@
     <disable-2fa-dialog ref="modalDisable2FA"></disable-2fa-dialog>
     <payment-dialog ref="modalPayment"></payment-dialog>
     <exchange-money-dialog ref="modalExchangeMoney" :balances="balances" :user="user"></exchange-money-dialog>
+    <transactions-dialog ref="modalTransactions" :balance="modalTransactionsBalance"></transactions-dialog>
   </q-card>
 </template>
 <script>
@@ -150,6 +154,7 @@ import AdminAddGroupDialog from "./dialogs/AdminAddGroupDialog.vue";
 import AdminAddMoneyDialog from "./dialogs/AdminAddMoneyDialog.vue";
 import PaymentDialog from "./dialogs/PaymentDialog.vue";
 import ExchangeMoneyDialog from "./dialogs/ExchangeMoneyDialog.vue";
+import TransactionsDialog from "./dialogs/TransactionsDialog.vue";
 
 export default defineComponent({
   components: {
@@ -164,6 +169,7 @@ export default defineComponent({
     AdminAddMoneyDialog,
     PaymentDialog,
     ExchangeMoneyDialog,
+    TransactionsDialog,
     "enable-2fa-dialog": Enable2FADialog,
     "disable-2fa-dialog": Disable2FADialog,
   },
@@ -191,6 +197,8 @@ export default defineComponent({
     const modalBan = ref(false);
     const modalPayment = ref(false);
     const modalExchangeMoney = ref(false);
+    const modalTransactions = ref(false);
+    var modalTransactionsBalance = ref(null);
     async function updateInfo(user) {
       if (!user) {
         return;
@@ -341,6 +349,8 @@ export default defineComponent({
       modalBan,
       modalPayment,
       modalExchangeMoney,
+      modalTransactions,
+      modalTransactionsBalance,
       authWatch,
       isAdmin: computed(() => $store.getters["api/isAdmin"]),
       adminDeleteAsset,
