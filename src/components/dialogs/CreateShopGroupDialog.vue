@@ -20,6 +20,7 @@
         <q-input v-if="!local" v-model="context" label="Контекст"></q-input>
         <q-separator></q-separator>
         <q-input v-model="expireDays" label="Колличество дней"></q-input>
+        <q-input v-model="localName" label="Имя группы в SimpleCabinet 2"></q-input>
         <q-checkbox v-model="stackable" label="Разрешить стакинг"></q-checkbox>
       </q-card-section>
       <q-card-actions>
