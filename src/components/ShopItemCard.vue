@@ -6,7 +6,7 @@
     <q-separator></q-separator>
     <q-card-section>
       <div class="flex flex-center" v-if="item.pictureUrl">
-        <img :src="item.pictureUrl">
+        <img :src="item.pictureUrl" height="128" width="128">
       </div>
     </q-card-section>
     <q-card-section>{{ item.description }}</q-card-section>
