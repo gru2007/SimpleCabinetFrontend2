@@ -34,10 +34,11 @@ export default defineComponent({
     const username = ref("");
     const email = ref("");
     const password = ref("");
-    const sitekey = computed(() => $store.state.api.hcaptcha.sitekey);
     const captchaToken = ref(null);
 
     function updateToken(token, eKey) {
+      console.log(token);
+      console.log(eKey);
       captchaToken.value = token;
     }
     return {
@@ -67,11 +68,10 @@ export default defineComponent({
           })
         }
       },
-      sitekey: computed(() => $store.state.api.recaptcha.sitekey),
+      sitekey: computed(() => $store.state.api.hcaptcha.sitekey),
       username,
       password,
       email,
-      sitekey,
       captchaToken,
       updateToken
     };
