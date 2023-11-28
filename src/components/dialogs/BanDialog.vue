@@ -59,7 +59,7 @@ export default defineComponent({
           method: "POST",
           body: {
             reason: reason.value,
-            endDate: isForever ? null : new Date(endDate.value).toISOString(),
+            endDate: isForever.value ? null : new Date(endDate.value).toISOString(),
             isHardware: isHardware.value,
           },
         });
