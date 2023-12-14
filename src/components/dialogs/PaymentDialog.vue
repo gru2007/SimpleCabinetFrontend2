@@ -32,7 +32,8 @@ export default defineComponent({
       "YooMoney": "Yoo",
       "Qiwi": "Qiwi",
       "Freekassa": "Freekassa",
-      "Test": "Test"
+      "Test": "Test",
+      "Stripe": "Stripe"
     }
     const options = Object.keys(methods);
     const option = ref("");
