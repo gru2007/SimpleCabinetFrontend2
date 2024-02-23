@@ -30,7 +30,6 @@ export default defineComponent({
     const $q = useQuasar();
     const methods = {
       "YooMoney": "Yoo",
-      "Qiwi": "Qiwi",
       "Freekassa": "Freekassa",
       "Test": "Test",
       "Stripe": "Stripe"
