@@ -52,6 +52,14 @@ const routes = [
     ]
   },
   {
+    path: '/regconfirm/:token',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/hooks/RegConfirm.vue') }
+    ],
+    props: true
+  },
+  {
     path: '/shop/items',
     component: () => import('layouts/MainLayout.vue'),
     children: [
