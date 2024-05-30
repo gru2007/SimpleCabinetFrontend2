@@ -1,15 +1,14 @@
+import { boot } from 'quasar/wrappers'
 import { createI18n } from 'vue-i18n'
 import messages from 'src/i18n'
 
-export default ({ app }) => {
-  // Create I18n instance
+export default boot(({ app }) => {
   const i18n = createI18n({
-    locale: 'ru-RU',
-    fallbackLocale: 'en-US',
+    locale: 'en-US',
     globalInjection: true,
     messages
   })
 
-  // Tell app to use the I18n instance
+  // Set i18n instance on app
   app.use(i18n)
-}
+})

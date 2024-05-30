@@ -4,7 +4,7 @@
 <script>
 import { defineComponent, unref, ref, watch, onMounted } from "vue";
 import { useStore } from "vuex";
-import { SkinViewer, createOrbitControls } from "skinview3d"
+import { SkinViewer } from "skinview3d"
 
 export default defineComponent({
   props: {
@@ -32,10 +32,6 @@ export default defineComponent({
         height: 400,
         skin: unref(props.skinUrl)
       });
-      let control = createOrbitControls(skinViewer);
-      control.enableRotate = true;
-      control.enableZoom = false;
-      control.enablePan = false;
     });
     return {
       canvas,

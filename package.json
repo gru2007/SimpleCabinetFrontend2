@@ -1,43 +1,37 @@
 {
   "name": "simplecabinet2-frontend",
   "version": "0.0.1",
-  "description": "Cabinet for Minecraft",
-  "productName": "SimpleCabinet 2",
-  "author": "Gravita <gravita@gravit.pro>",
+  "description": "A cabinet for minecraft projects",
+  "productName": "SimpleCabinet",
+  "author": "Gravita <12893402+gravit0@users.noreply.github.com>",
+  "type": "module",
   "private": true,
   "scripts": {
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "quasar dev",
+    "build": "quasar build"
   },
   "dependencies": {
     "@hcaptcha/vue3-hcaptcha": "^1.3.0",
-    "@quasar/extras": "^1.0.0",
-    "@sentry/vue": "^7.57.0",
-    "core-js": "^3.6.5",
-    "qrcode.vue": "^3.3.4",
-    "quasar": "^2.0.0",
-    "skinview3d": "^2.2.1",
-    "vue": "^3.0.0",
-    "vue-i18n": "^9.3.0-beta.17",
+    "@quasar/extras": "^1.16.4",
+    "pinia": "^2.0.11",
+    "qrcode.vue": "^3.4.1",
+    "quasar": "^2.16.0",
+    "skinview3d": "^3.0.1",
+    "vue": "^3.4.18",
+    "vue-i18n": "^9.0.0",
     "vue-router": "^4.0.0",
-    "vuex": "^4.0.1"
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
-    "@quasar/app-webpack": "^3.0.0",
-    "dotenv": "^16.0.0"
+    "@intlify/unplugin-vue-i18n": "^2.0.0",
+    "@quasar/app-vite": "^2.0.0-beta.12",
+    "autoprefixer": "^10.4.2",
+    "dotenv": "^16.4.5",
+    "postcss": "^8.4.14"
   },
-  "browserslist": [
-    "last 10 Chrome versions",
-    "last 10 Firefox versions",
-    "last 4 Edge versions",
-    "last 7 Safari versions",
-    "last 8 Android versions",
-    "last 8 ChromeAndroid versions",
-    "last 8 FirefoxAndroid versions",
-    "last 10 iOS versions",
-    "last 5 Opera versions"
-  ],
   "engines": {
-    "node": ">= 12.22.1",
+    "node": "^24 || ^22 || ^20 || ^18",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
   }
