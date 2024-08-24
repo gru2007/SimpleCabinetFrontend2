@@ -54,7 +54,7 @@ export default defineComponent({
     var expireDays = ref(-1);
     var price = ref(100.0);
     var currency = ref("DONATE");
-    var stackable = ref(false);
+    var stackable = ref(true);
     var localName = ref("");
     var file = ref(null);
     async function send() {
