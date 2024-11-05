@@ -10,6 +10,7 @@ export default {
     "cabinet.label.groups.none": "None",
     "cabinet.label.balance.none": "None",
     "cabinet.button.change-password": 'Change Password',
+    "cabinet.button.change-prefix": 'Change Prefix',
     "cabinet.button.enable2fa": 'Enable 2FA',
     "cabinet.button.disable2fa": 'Disable 2FA',
     "cabinet.button.ban": 'Ban',

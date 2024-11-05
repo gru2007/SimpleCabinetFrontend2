@@ -100,6 +100,7 @@
             <q-item v-if="owner == true && securityInfo != null">
               <q-btn-group>
                 <q-btn @click="modalChangePassword.show = true">{{ $t("cabinet.button.change-password") }}</q-btn>
+                <q-btn @click="modalChangePrefix.show = true">{{ $t("cabinet.button.change-prefix") }}</q-btn>
                 <q-btn v-if="securityInfo.enabled2FA == false" @click="modalEnable2FA.show = true">{{ $t("cabinet.button.enable2fa") }}</q-btn>
                 <q-btn v-if="securityInfo.enabled2FA == true" @click="modalDisable2FA.show = true">{{ $t("cabinet.button.disable2fa") }}</q-btn>
               </q-btn-group>
@@ -123,6 +124,7 @@
     </upload-cape-dialog>
 
     <change-password-dialog ref="modalChangePassword"> </change-password-dialog>
+    <change-prefix-dialog ref="modalChangePrefix"></change-prefix-dialog>
 
     <change-status-dialog ref="modalChangeStatus" :oldStatus="user.status ? user.status : null">
     </change-status-dialog>
@@ -144,6 +146,7 @@ import { useStore, mapState } from "vuex";
 import UploadSkinDialog from "./dialogs/UploadSkinDialog.vue";
 import UploadCapeDialog from "./dialogs/UploadCapeDialog.vue";
 import ChangePasswordDialog from "./dialogs/ChangePasswordDialog.vue";
+import ChangePrefixDialog from "./dialogs/ChangePrefixDialog.vue";
 import Enable2FADialog from "./dialogs/Enable2FADialog.vue";
 import Disable2FADialog from "./dialogs/Disable2FADialog.vue";
 import BanDialog from "./dialogs/BanDialog.vue";
@@ -162,6 +165,7 @@ export default defineComponent({
     UploadSkinDialog,
     UploadCapeDialog,
     ChangePasswordDialog,
+    ChangePrefixDialog,
     BanDialog,
     HeadAvatar,
     ChangeStatusDialog,
@@ -190,6 +194,7 @@ export default defineComponent({
     const modalCape = ref(false);
     const modalChangePassword = ref(false);
     const modalChangeStatus = ref(false);
+    const modalChangePrefix = ref(false);
     const modalEnable2FA = ref(false);
     const modalDisable2FA = ref(false);
     const modalAddGroup = ref(false);
@@ -342,6 +347,7 @@ export default defineComponent({
       modalCape,
       modalChangePassword,
       modalChangeStatus,
+      modalChangePrefix,
       modalAddGroup,
       modalAddMoney,
       modalEnable2FA,

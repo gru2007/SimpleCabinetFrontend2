@@ -10,6 +10,7 @@ export default {
     "cabinet.label.groups.none": "Нет групп",
     "cabinet.label.balance.none": "Отсутствует",
     "cabinet.button.change-password": 'Изменить пароль',
+    "cabinet.button.change-prefix": 'Изменить префикс',
     "cabinet.button.enable2fa": 'Включить 2FA',
     "cabinet.button.disable2fa": 'Отключить 2FA',
     "cabinet.button.ban": 'Забанить',
