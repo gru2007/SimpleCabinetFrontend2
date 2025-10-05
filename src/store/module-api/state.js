@@ -2,9 +2,9 @@ import { ref } from "vue";
 
 export default function () {
   return {
-    url: process.env.DEV ? "/api/" : process.env.URL,
+    url: "https://mc-api.r-artemev.ru",
     hcaptcha: {
-      sitekey: process.env.HCAPTCHA_SITEKEY
+      sitekey: "b266dbb6-d8b2-4608-b076-dfaaefb68e9c"
     },
     authrozation: {
       accessToken: "",
